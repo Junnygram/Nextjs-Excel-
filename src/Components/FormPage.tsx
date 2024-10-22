@@ -6,7 +6,7 @@ const FormPage = async () => {
   const session = await auth();
   const user = session?.user;
 
-  console.log('email:', user?.name, 'user:', user?.email);
+  //   console.log('email:', user?.name, 'user:', user?.email);
   if (!session)
     return (
       <div className="">
@@ -14,7 +14,13 @@ const FormPage = async () => {
       </div>
     );
 
-  return <div>Welcome {user?.name}</div>;
+  return (
+    <div>
+      {' '}
+      <div>Welcome {user?.name}</div>
+      <FormPage />
+    </div>
+  );
 };
 
 export default FormPage;
