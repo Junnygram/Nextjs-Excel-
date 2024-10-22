@@ -48,7 +48,7 @@ export function MyForm() {
 
   async function onSubmit(values: FormModel) {
     try {
-      const response = await axios.post('/api/submitForm', values);
+      const response = await axios.post('/api/submitform', values);
 
       if (response.status === 200) {
         reset(); // Reset the form upon successful submission
