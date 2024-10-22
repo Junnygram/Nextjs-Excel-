@@ -17,7 +17,7 @@ const FormPage = async () => {
 
   return (
     <div>
-      <div>Welcome {user?.name}</div>
+      <div>Hey {user?.name}</div>
       <MyForm />
     </div>
   );

@@ -1,14 +1,22 @@
+// route.ts
 import { google } from 'googleapis';
-import formSchema from '../../../Components/Form';
+import { formSchema } from '../../../Components/validate/validatonSchema';
 import { parse } from 'json2csv';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const validatedData = formSchema.validate(body);
-    const csvData = parse(validatedData, { header: false });
-    const cleanedCsvData = csvData.replace(/"/g, '');
+
+    // Server-side validation
+    const validatedData = await formSchema.validate(body, {
+      abortEarly: false,
+    });
+
+    // Convert to CSV
+    const csvData = parse([validatedData], {
+      fields: ['firstName', 'lastName', 'email', 'type', 'phoneNumber'],
+    });
 
     const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
     if (!privateKey) {
@@ -30,16 +38,17 @@ export async function POST(request: NextRequest) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.SPREADSHEET_ID;
     const range = 'Sheet1!A1';
-    const valueInputOption = 'USER_ENTERED';
-    const valueRangeBody = {
-      values: [cleanedCsvData.split(',')],
-    };
+
+    // Parse CSV data into array format for Google Sheets
+    const rows = csvData.split('\n').map((row) => row.split(','));
 
     await sheets.spreadsheets.values.append({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: valueInputOption,
-      requestBody: valueRangeBody,
+      spreadsheetId,
+      range,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: rows,
+      },
     });
 
     return NextResponse.json(
@@ -47,12 +56,12 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error ? error.message : 'An unknown error occurred',
-      },
-      { status: 400 }
+      { error: 'An unknown error occurred' },
+      { status: 500 }
     );
   }
 }

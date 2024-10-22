@@ -1,33 +1,18 @@
+// MyForm.tsx
 'use client';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import PrimaryInput from './PrimaryInput';
 import { yupResolver } from '@hookform/resolvers/yup';
+import PrimaryInput from './PrimaryInput';
+import { formSchema } from './validate/validatonSchema';
+import type { FormModel } from './validate/type';
+import { useState } from 'react';
+import { FaSpinner } from 'react-icons/fa6';
+import { toast } from 'react-hot-toast';
 
-import * as yup from 'yup';
-
-const formSchema = yup.object().shape({
-  firstName: yup.string().required('First name is required'),
-  email: yup
-    .string()
-    .email('Invalid email format')
-    .required('Email is required'),
-  lastName: yup.string().required('Last name is required'),
-  type: yup.string().required('Profile type is required'),
-  phoneNumber: yup.string().required('Phone number is required'),
-});
-
-export default formSchema;
-
-// Define the FormModel type
-export type FormModel = {
-  firstName: string;
-  email: string;
-  lastName: string;
-  type: string;
-  phoneNumber: string;
-};
-
+// interface IForm{
+//   email: string | undefined
+// }
 export function MyForm() {
   const {
     handleSubmit,
@@ -45,16 +30,18 @@ export function MyForm() {
       type: '',
     },
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(values: FormModel) {
+    setIsLoading(true);
     try {
       const response = await axios.post('/api/submitform', values);
-
+      setIsLoading(false);
       if (response.status === 200) {
-        reset(); // Reset the form upon successful submission
-        console.log('Successfully submitted');
+        reset();
+        toast.success('Successfully submitted');
       } else {
-        console.error('Form submission failed.');
+        toast.error('Form submission failed.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -83,12 +70,12 @@ export function MyForm() {
           errorMessage={errors.email?.message}
         />
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-medium text-gray-700 dark:text-white">
             Profile Type
           </label>
           <select
             {...register('type')}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-500"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm dark:text-black focus:ring focus:ring-indigo-500"
           >
             <option value="">Select Profile Type</option>
             <option value="Creator">I am a Creator</option>
@@ -106,9 +93,13 @@ export function MyForm() {
         <div className="w-[80%] mx-auto max-w-[10rem]">
           <button
             type="submit"
-            className="bg-[#5645F5] z-20 relative w-full px-8 py-3 border-r-2 border-b-2 rounded-md"
+            className="bg-[#5645F5] text-white z-20 relative w-full px-8 py-3 border-r-2 border-b-2 rounded-md"
           >
-            Submit
+            {isLoading ? (
+              <FaSpinner size={20} className="animate-spin  w-full mx-auto" />
+            ) : (
+              'Submit'
+            )}
           </button>
         </div>
       </form>
