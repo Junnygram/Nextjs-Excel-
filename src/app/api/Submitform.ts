@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const validatedData = formSchema.parse(req.body);
+      const validatedData = formSchema.validate(req.body);
       const csvData = parse(validatedData, { header: false });
       const cleanedCsvData = csvData.replace(/"/g, '');
 
