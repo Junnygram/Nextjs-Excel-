@@ -75,13 +75,13 @@ export function MyForm() {
   const StepComponent = steps[currentStep - 1];
 
   return (
-    <div className="container mx-auto px-4 py-16 rounded-lg shadow-lg max-w-xl">
+    <div className="container mx-auto px-4 py-16 rounded-lg md:shadow-lg max-w-xl">
       <h2 className="text-2xl font-bold text-center mb-6">
         Submit Your Information
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {steps.map((step, index) => (
-          <SideComponents key={index} currentStep={currentStep} index={index} />
+          <SideComponents key={index} currentStep={currentStep} />
         ))}
         {StepComponent && <StepComponent register={register} errors={errors} />}
         <div className="flex justify-between mt-4">
