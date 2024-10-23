@@ -10,22 +10,21 @@ const PrimaryInput = forwardRef<HTMLInputElement, PrimaryInputProps>(
   ({ label, errorMessage, ...props }, ref) => {
     return (
       <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-700 dark:text-white">
-          {label}
-        </label>
+        <label className="text-gray-700 mb-2 dark:text-white">{label}</label>
         <input
           ref={ref}
+          className={`border rounded-lg p-2 focus:outline-none focus:ring-2 dark:text-black ${
+            errorMessage ? 'border-red-500' : 'border-gray-300'
+          } `}
           {...props}
-          className={`mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-500 outline-none dark:text-black ${
-            errorMessage ? 'border-red-500' : ''
-          }`}
         />
-        {errorMessage && <span className="text-red-500">{errorMessage}</span>}
+        {errorMessage && (
+          <span className="text-red-500 text-sm">{errorMessage}</span>
+        )}
       </div>
     );
   }
 );
-
 PrimaryInput.displayName = 'PrimaryInput';
 
 export default PrimaryInput;

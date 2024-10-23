@@ -10,16 +10,13 @@ import { useState } from 'react';
 import { FaSpinner } from 'react-icons/fa6';
 import { toast } from 'react-hot-toast';
 
-// interface IForm{
-//   email: string | undefined
-// }
 export function MyForm() {
   const {
     handleSubmit,
     register,
     formState: { errors },
     reset,
-  } = useForm<FormModel>({
+  } = useForm({
     resolver: yupResolver(formSchema),
     mode: 'all',
     defaultValues: {
@@ -28,9 +25,11 @@ export function MyForm() {
       lastName: '',
       phoneNumber: '',
       type: '',
+      comment: '',
     },
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: FormModel) {
     setIsLoading(true);
@@ -45,63 +44,76 @@ export function MyForm() {
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      setIsLoading(false);
+      toast.error('An error occurred. Please try again.');
     }
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 pt-5 pb-10">
-        <div className="grid grid-cols-2 gap-x-3">
-          <PrimaryInput
-            label="First Name"
-            {...register('firstName')}
-            errorMessage={errors.firstName?.message}
-          />
-          <PrimaryInput
-            label="Last Name"
-            {...register('lastName')}
-            errorMessage={errors.lastName?.message}
-          />
-        </div>
+    <div className="container mx-auto px-4 py-16  rounded-lg shadow-lg max-w-xl">
+      <h2 className="text-2xl font-bold text-center mb-6">
+        Submit Your Information
+      </h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <PrimaryInput
-          label="Email Address"
+          label="First Name"
+          {...register('firstName')}
+          errorMessage={errors.firstName?.message}
+        />
+        <PrimaryInput
+          label="Last Name"
+          {...register('lastName')}
+          errorMessage={errors.lastName?.message}
+        />
+        <PrimaryInput
+          label="Email"
           type="email"
           {...register('email')}
           errorMessage={errors.email?.message}
         />
+        <PrimaryInput
+          label="Phone Number"
+          type="tel"
+          {...register('phoneNumber')}
+          errorMessage={errors.phoneNumber?.message}
+        />
+
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 dark:text-white">
+          <label className="text-gray-700 mb-2 dark:text-white">
             Profile Type
           </label>
           <select
             {...register('type')}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm dark:text-black focus:ring focus:ring-indigo-500"
+            className={`border rounded-lg p-2 focus:outline-none focus:ring-2 ${
+              errors.type ? 'border-red-500' : 'border-gray-300'
+            } `}
           >
             <option value="">Select Profile Type</option>
-            <option value="Creator">I am a Creator</option>
-            <option value="Brand">We are a Brand</option>
+            <option value="Engineer">I am a Engineer</option>
+            <option value="Designer">I am a Designer</option>
+            <option value="Product Manager">I am a Product Manager</option>
           </select>
           {errors.type && (
-            <span className="text-red-500">{errors.type.message}</span>
+            <span className="text-red-500 text-sm">{errors.type.message}</span>
           )}
         </div>
+
         <PrimaryInput
-          label="Phone Number"
-          {...register('phoneNumber')}
-          errorMessage={errors.phoneNumber?.message}
+          label="Why would you like to work with us?"
+          {...register('comment')}
+          errorMessage={errors.comment?.message}
         />
-        <div className="w-[80%] mx-auto max-w-[10rem]">
-          <button
-            type="submit"
-            className="bg-[#5645F5] text-white z-20 relative w-full px-8 py-3 border-r-2 border-b-2 rounded-md"
-          >
-            {isLoading ? (
-              <FaSpinner size={20} className="animate-spin  w-full mx-auto" />
-            ) : (
-              'Submit'
-            )}
-          </button>
-        </div>
+
+        <button
+          type="submit"
+          className={`w-[80%] mx-auto  max-w-[12rem] py-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center justify-center transition duration-200 ${
+            isLoading ? 'cursor-not-allowed' : ''
+          }`}
+          disabled={isLoading}
+        >
+          {isLoading ? <FaSpinner className="animate-spin" /> : 'Submit'}
+        </button>
       </form>
     </div>
   );

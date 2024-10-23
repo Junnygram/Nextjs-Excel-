@@ -15,7 +15,14 @@ export async function POST(request: NextRequest) {
 
     // Convert to CSV
     const csvData = parse([validatedData], {
-      fields: ['firstName', 'lastName', 'email', 'type', 'phoneNumber'],
+      fields: [
+        'firstName',
+        'lastName',
+        'email',
+        'type',
+        'phoneNumber',
+        'comment',
+      ],
     });
 
     const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');

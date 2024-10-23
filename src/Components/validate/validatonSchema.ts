@@ -10,4 +10,5 @@ export const formSchema = yup.object().shape({
   lastName: yup.string().required('Last name is required'),
   type: yup.string().required('Profile type is required'),
   phoneNumber: yup.string().required('Phone number is required'),
+  comment: yup.string().required(),
 });

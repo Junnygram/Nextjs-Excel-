@@ -4,4 +4,5 @@ export type FormModel = {
   lastName: string;
   type: string;
   phoneNumber: string;
+  comment: string;
 };
