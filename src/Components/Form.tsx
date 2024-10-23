@@ -135,6 +135,16 @@ export function MyForm() {
             )}
           </div>
         </form>
+
+        {/* Embed the Google Sheets document */}
+        <div className="my-3">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/19wkPNYGXzEnTrUjo7ubPRHrhNl-5YVxP7eRTPVPuUSw/edit?usp=sharing"
+            width="80%"
+            className="mx-auto"
+            height="200"
+          />
+        </div>
       </div>
     </div>
   );
