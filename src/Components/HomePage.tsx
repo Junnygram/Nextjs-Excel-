@@ -170,7 +170,7 @@ export default async function HomePage() {
       </div>
 
       {/* Deployment Section */}
-      <div className="container mx-auto px-4 py-8">
+      {/* <div className="container mx-auto px-4 py-8">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           DevOps
         </h2>
@@ -179,7 +179,7 @@ export default async function HomePage() {
           illustrating my proficiency in DevOps practices such as
           containerization, CI/CD, and cloud deployment.
         </p>
-      </div>
+      </div> */}
 
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8">
