@@ -9,7 +9,7 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 pt-20 pb-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="text-center max-w-3xl mx-auto space-y-8">
           <h1 className="font-sans text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent leading-tight tracking-tight">
             Seamless Form Submission with Google Sheets Integration
@@ -68,7 +68,7 @@ export default async function HomePage() {
       </div>
 
       {/* Features Section */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Feature 1 */}
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
@@ -115,7 +115,7 @@ export default async function HomePage() {
       </div>
 
       {/* How It Works Section */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           How It Works
         </h2>
@@ -168,6 +168,18 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Deployment Section */}
+      {/* <div className="container mx-auto px-4 py-8">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          DevOps
+        </h2>
+        <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto">
+          This project is Dockerized and deployed on Google Cloud Run,
+          illustrating my proficiency in DevOps practices such as
+          containerization, CI/CD, and cloud deployment.
+        </p>
+      </div> */}
 
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8">
